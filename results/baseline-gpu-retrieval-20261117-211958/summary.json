@@ -1,0 +1,77 @@
+{
+  "model": "models/Qwen2.5-3B-Instruct",
+  "dataset": "data/nq_hotpotqa_train/test.parquet",
+  "settings": {
+    "backend": "vllm",
+    "dtype": "float16",
+    "prompt": "测试集自带的作者原版 prompt",
+    "ports": [
+      8001,
+      8002,
+      8003,
+      8004,
+      8005
+    ],
+    "concurrency_per_gpu": 32,
+    "temperature": 0.0,
+    "max_searches": 4,
+    "max_rounds": 5,
+    "max_new_tokens_per_round": 512,
+    "max_context_tokens": 8192,
+    "retrieval_topk": 3,
+    "retrieval_batch_max": 64,
+    "retrieval_batch_wait_seconds": 0.02,
+    "retrieval_backend": "faiss_gpu_flat_ip",
+    "http_max_attempts": 3,
+    "retrieval_index_storage_dtype": "float16",
+    "retrieval_index": "indexes/wiki18-full/e5_Flat.index",
+    "retrieval_encoder": "models/e5-base-v2"
+  },
+  "total": 51713,
+  "correct": 14900,
+  "em": 0.2881287103823023,
+  "average_searches": 1.1092955349718638,
+  "elapsed_seconds": 2786.071181277046,
+  "status_counts": {
+    "answered": 48841,
+    "invalid_format": 1928,
+    "search_limit": 944
+  },
+  "by_data_source": {
+    "nq": {
+      "total": 3610,
+      "correct": 781,
+      "em": 0.21634349030470915
+    },
+    "triviaqa": {
+      "total": 11313,
+      "correct": 5148,
+      "em": 0.45505171042163883
+    },
+    "popqa": {
+      "total": 14267,
+      "correct": 4292,
+      "em": 0.30083409266138644
+    },
+    "hotpotqa": {
+      "total": 7405,
+      "correct": 1639,
+      "em": 0.2213369345037137
+    },
+    "2wikimultihopqa": {
+      "total": 12576,
+      "correct": 2840,
+      "em": 0.22582697201017812
+    },
+    "musique": {
+      "total": 2417,
+      "correct": 176,
+      "em": 0.07281754240794373
+    },
+    "bamboogle": {
+      "total": 125,
+      "correct": 24,
+      "em": 0.192
+    }
+  }
+}
