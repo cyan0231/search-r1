@@ -11,6 +11,8 @@
 | 进入训练 | [SearchAgentLoop](runs/grpo-20261120-144806/verl/experimental/agent_loop/search_agent_loop.py) · [奖励函数](scripts/em_reward.py) · [正式配置](runs/grpo-20261120-144806/train.sh) | 每个问题采样四条轨迹。模型输出和工具结果都进入上下文，只有模型生成的 token 参与策略损失。 |
 | 评测与选模 | [验证选模与恢复](runs/grpo-20261120-144806/run_checkpoints.py) · [评测脚本](scripts/eval_baseline_multi.py) · [训练后评测入口](results/test-grpo-step720-20261122/run.sh) | 验证 EM 选 checkpoint。测试时每题跑一条轨迹，两次全量评测用同一份评分代码。 |
 
+如果想从最简单的实现开始读，可以先看[单卡全量建库](search/index_builder_full.py)，再用[命令行直接检索](search/retrieval_server.py)追踪“问题 → 向量 → 文档”的过程。[CPU FAISS HTTP 服务](search/retrieval_http.py)把同一查询过程封装为接口。[单卡逐题评测](scripts/eval_baseline_one-problem-per-gpu.py)展示一道题从生成、检索到 EM 评分的完整调用顺序。
+
 ### 一条样本如何变成轨迹
 
 训练集中 `train_0` 来自 NQ，题目是 “total number of death row inmates in the us?”。`prompt` 包含指令和这道题，`reward_model.ground_truth.target` 为 `["2,718"]`，评分时读取。数据准备脚本给每条题目加上 `agent_name="search_agent"`，将请求路由到自定义循环。[数据准备代码](scripts/prepare_train.py) · [Agent 注册](configs/search_agent.yaml)
